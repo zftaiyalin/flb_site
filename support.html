@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>支持 & FAQ — FLB Studio</title>
+  <title>Support — FLB Studio</title>
+  <script src="lang.js"></script>
   <link rel="stylesheet" href="shared.css" />
   <style>
     .faq-section { max-width: 800px; margin: 0 auto; padding: 48px 48px 80px; }
@@ -41,17 +42,21 @@
 <header>
   <a class="logo" href="index.html">FLB Studio</a>
   <nav>
-    <a href="index.html#apps">产品</a>
-    <a href="support.html">支持</a>
-    <a href="contact.html">联系我们</a>
+    <a href="index.html#apps"><span class="zh">产品</span><span class="en">Apps</span></a>
+    <a href="support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
+    <button class="lang-btn" onclick="flbToggleLang()"><span class="zh">EN</span><span class="en">中</span></button>
   </nav>
 </header>
 
 <div class="page-hero" style="padding-bottom:32px">
   <div>
-    <div class="badge">支持中心</div>
-    <h1>常见问题 FAQ</h1>
-    <p>找到你的问题，快速解决。</p>
+    <div class="badge"><span class="zh">支持中心</span><span class="en">Support</span></div>
+    <h1><span class="zh">常见问题 FAQ</span><span class="en">Frequently Asked Questions</span></h1>
+    <p>
+      <span class="zh">找到你的问题，快速解决。</span>
+      <span class="en">Find answers to common questions quickly.</span>
+    </p>
   </div>
 </div>
 
@@ -62,63 +67,69 @@
   <div class="faq-app-title"><span>🧭</span> Compass</div>
 
   <details>
-    <summary>罗盘方向不准怎么办？</summary>
-    <p>请远离金属物体、磁铁和电子设备。在空旷处缓慢将手机画"8"字形来校准传感器，通常可以恢复精度。</p>
+    <summary><span class="zh">罗盘方向不准怎么办？</span><span class="en">Why is my compass reading inaccurate?</span></summary>
+    <p>
+      <span class="zh">请远离金属物体、磁铁和电子设备。在空旷处缓慢将手机画"8"字形来校准传感器，通常可以恢复精度。</span>
+      <span class="en">Move away from metal objects, magnets, and electronic devices. In an open area, slowly move your phone in a figure-8 pattern to calibrate the sensor — this usually restores accuracy.</span>
+    </p>
   </details>
   <details>
-    <summary>真北和磁北有什么区别？</summary>
-    <p>磁北是地磁场指向，真北是地理北极方向。两者之间的差角称为磁偏角，会因地区不同而有所差异。开启位置权限后，Compass 会自动补偿磁偏角。</p>
+    <summary><span class="zh">真北和磁北有什么区别？</span><span class="en">What's the difference between true north and magnetic north?</span></summary>
+    <p>
+      <span class="zh">磁北是地磁场指向，真北是地理北极方向。两者之间的差角称为磁偏角，会因地区不同而有所差异。开启位置权限后，Compass 会自动补偿磁偏角。</span>
+      <span class="en">Magnetic north is the direction the Earth's magnetic field points, while true north points to the geographic North Pole. The angle between them is called magnetic declination, which varies by location. When location permission is granted, Compass automatically compensates for declination.</span>
+    </p>
   </details>
   <details>
-    <summary>为什么需要位置权限？</summary>
-    <p>位置权限仅用于获取当前地区的磁偏角数据，从而提供更精准的真北方向。位置数据不会被收集或上传。</p>
+    <summary><span class="zh">为什么需要位置权限？</span><span class="en">Why does Compass need location permission?</span></summary>
+    <p>
+      <span class="zh">位置权限仅用于获取当前地区的磁偏角数据，从而提供更精准的真北方向。位置数据不会被收集或上传。</span>
+      <span class="en">Location permission is used solely to retrieve the local magnetic declination value for accurate true north. Location data is never collected or uploaded.</span>
+    </p>
   </details>
 
   <div class="faq-app-title"><span>🌙</span> Sleep</div>
 
   <details>
-    <summary>音频播放时屏幕锁定还能继续吗？</summary>
-    <p>可以。Sleep 支持后台播放，锁屏后音频会继续播放，并可通过控制中心暂停。</p>
+    <summary><span class="zh">音频播放时屏幕锁定还能继续吗？</span><span class="en">Does audio continue playing when the screen locks?</span></summary>
+    <p>
+      <span class="zh">可以。Sleep 支持后台播放，锁屏后音频会继续播放，并可通过控制中心暂停。</span>
+      <span class="en">Yes. Sleep supports background audio playback. After locking the screen, audio continues and can be paused from the Control Center.</span>
+    </p>
   </details>
   <details>
-    <summary>如何使用定时关闭功能？</summary>
-    <p>在播放界面点击定时器图标，选择 15/30/45/60 分钟，到时后音频将自动淡出停止。</p>
+    <summary><span class="zh">如何使用定时关闭功能？</span><span class="en">How do I use the sleep timer?</span></summary>
+    <p>
+      <span class="zh">在播放界面点击定时器图标，选择 15/30/45/60 分钟，到时后音频将自动淡出停止。</span>
+      <span class="en">Tap the timer icon on the playback screen and choose 15, 30, 45, or 60 minutes. The audio will automatically fade out and stop when the timer ends.</span>
+    </p>
   </details>
   <details>
-    <summary>音频可以离线使用吗？</summary>
-    <p>可以。所有内置音景均包含在应用安装包中，无需联网即可使用。</p>
-  </details>
-
-  <div class="faq-app-title"><span>⚒️</span> Forge</div>
-
-  <details>
-    <summary>专注记录会自动保存吗？</summary>
-    <p>会。每次专注会话结束后，记录会自动保存到本地。</p>
-  </details>
-  <details>
-    <summary>删除任务后数据还在吗？</summary>
-    <p>删除任务会同时删除该任务下所有的专注记录，此操作不可撤销，请谨慎操作。</p>
-  </details>
-  <details>
-    <summary>如何修改番茄钟时长？</summary>
-    <p>进入「设置」页面，在「专注时长」选项中可自定义工作时间和休息时间。</p>
+    <summary><span class="zh">音频可以离线使用吗？</span><span class="en">Can I use the sounds offline?</span></summary>
+    <p>
+      <span class="zh">可以。所有内置音景均包含在应用安装包中，无需联网即可使用。</span>
+      <span class="en">Yes. All built-in soundscapes are bundled with the app — no internet connection required.</span>
+    </p>
   </details>
 
 </div>
 
 <div class="contact-banner" style="padding: 0 48px;">
   <div style="background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.2);border-radius:16px;padding:32px;text-align:center">
-    <h3>没找到答案？</h3>
-    <p>联系我们，我们会在 1-2 个工作日内回复。</p>
-    <a class="btn" href="contact.html">联系支持</a>
+    <h3><span class="zh">没找到答案？</span><span class="en">Didn't find your answer?</span></h3>
+    <p>
+      <span class="zh">联系我们，我们会在 1-2 个工作日内回复。</span>
+      <span class="en">Contact us and we'll get back to you within 1–2 business days.</span>
+    </p>
+    <a class="btn" href="contact.html"><span class="zh">联系支持</span><span class="en">Contact Support</span></a>
   </div>
 </div>
 
 <footer>
   <p>© 2025 FLB Studio. All rights reserved.</p>
   <p style="margin-top:12px">
-    <a href="support.html">支持</a>
-    <a href="contact.html">联系我们</a>
+    <a href="support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
   </p>
 </footer>
 </body>

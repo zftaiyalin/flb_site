@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>联系我们 — FLB Studio</title>
+  <title>Contact — FLB Studio</title>
+  <script src="lang.js"></script>
   <link rel="stylesheet" href="shared.css" />
   <style>
     .contact-wrap { max-width: 640px; margin: 0 auto; padding: 48px 48px 80px; }
@@ -37,17 +38,21 @@
 <header>
   <a class="logo" href="index.html">FLB Studio</a>
   <nav>
-    <a href="index.html#apps">产品</a>
-    <a href="support.html">支持</a>
-    <a href="contact.html">联系我们</a>
+    <a href="index.html#apps"><span class="zh">产品</span><span class="en">Apps</span></a>
+    <a href="support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
+    <button class="lang-btn" onclick="flbToggleLang()"><span class="zh">EN</span><span class="en">中</span></button>
   </nav>
 </header>
 
 <div class="page-hero" style="padding-bottom:32px">
   <div>
-    <div class="badge">联系我们</div>
-    <h1>有任何问题？</h1>
-    <p>我们通常在 1-2 个工作日内回复。</p>
+    <div class="badge"><span class="zh">联系我们</span><span class="en">Contact Us</span></div>
+    <h1><span class="zh">有任何问题？</span><span class="en">Get in Touch</span></h1>
+    <p>
+      <span class="zh">我们通常在 1-2 个工作日内回复。</span>
+      <span class="en">We typically reply within 1–2 business days.</span>
+    </p>
   </div>
 </div>
 
@@ -55,55 +60,64 @@
 
 <div class="contact-wrap">
   <div class="thanks-banner" id="thanks">
-    <h3>消息已发送 ✓</h3>
-    <p>感谢你的反馈，我们会在 1-2 个工作日内回复。</p>
+    <h3><span class="zh">消息已发送 ✓</span><span class="en">Message sent ✓</span></h3>
+    <p>
+      <span class="zh">感谢你的反馈，我们会在 1-2 个工作日内回复。</span>
+      <span class="en">Thanks for reaching out. We'll get back to you within 1–2 business days.</span>
+    </p>
   </div>
   <form action="https://api.web3forms.com/submit" method="POST">
     <input type="hidden" name="access_key" value="fb09df24-fe29-42d6-a9f5-091d6959b271" />
     <input type="hidden" name="subject" value="FLB Studio 用户反馈" />
     <input type="hidden" name="redirect" value="https://flbapp.com/contact.html?thanks=1" />
     <div class="form-group">
-      <label for="app">相关应用</label>
+      <label for="app"><span class="zh">相关应用</span><span class="en">Related App</span></label>
       <select id="app" name="app">
-        <option value="">— 请选择 —</option>
-        <option value="compass">Compass</option>
-        <option value="sleep">Sleep</option>
-        <option value="forge">Forge</option>
-        <option value="other">其他</option>
+        <option value="" data-en="— Please select —">— 请选择 —</option>
+        <option value="compass" data-en="Compass">Compass</option>
+        <option value="sleep" data-en="Sleep">Sleep</option>
+        <option value="other" data-en="Other">其他</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="type">问题类型</label>
+      <label for="type"><span class="zh">问题类型</span><span class="en">Type</span></label>
       <select id="type" name="type">
-        <option value="">— 请选择 —</option>
-        <option value="bug">Bug 报告</option>
-        <option value="feature">功能建议</option>
-        <option value="account">账号问题</option>
-        <option value="other">其他</option>
+        <option value="" data-en="— Please select —">— 请选择 —</option>
+        <option value="bug" data-en="Bug Report">Bug 报告</option>
+        <option value="feature" data-en="Feature Request">功能建议</option>
+        <option value="account" data-en="Account Issue">账号问题</option>
+        <option value="other" data-en="Other">其他</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="email">您的邮箱</label>
+      <label for="email"><span class="zh">您的邮箱</span><span class="en">Your Email</span></label>
       <input type="email" id="email" name="email" placeholder="your@email.com" required />
     </div>
     <div class="form-group">
-      <label for="message">详细描述</label>
-      <textarea id="message" name="message" placeholder="请尽量详细描述您的问题或建议..." required></textarea>
+      <label for="message"><span class="zh">详细描述</span><span class="en">Message</span></label>
+      <textarea id="message" name="message" class="zh" placeholder="请尽量详细描述您的问题或建议..." required></textarea>
+      <textarea id="message-en" name="message" class="en" placeholder="Please describe your question or feedback in detail..." required style="display:none"></textarea>
     </div>
-    <button type="submit" class="btn-submit">发送消息</button>
+    <button type="submit" class="btn-submit">
+      <span class="zh">发送消息</span><span class="en">Send Message</span>
+    </button>
   </form>
 
   <div class="direct-contact">
-    <h3>直接联系</h3>
-    <p style="color:#888;font-size:14px">也可以直接发邮件至：<a href="mailto:zftaifei@gmail.com">zftaifei@gmail.com</a></p>
+    <h3><span class="zh">直接联系</span><span class="en">Direct Contact</span></h3>
+    <p style="color:#888;font-size:14px">
+      <span class="zh">也可以直接发邮件至：</span>
+      <span class="en">You can also email us directly: </span>
+      <a href="mailto:zftaifei@gmail.com">zftaifei@gmail.com</a>
+    </p>
   </div>
 </div>
 
 <footer>
   <p>© 2025 FLB Studio. All rights reserved.</p>
   <p style="margin-top:12px">
-    <a href="support.html">支持</a>
-    <a href="contact.html">联系我们</a>
+    <a href="support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
   </p>
 </footer>
 <script>
@@ -111,6 +125,27 @@
     document.getElementById('thanks').style.display = 'block';
     document.querySelector('form').style.display = 'none';
   }
+
+  function applyLang(lang) {
+    document.querySelectorAll('option[data-en]').forEach(function(opt) {
+      if (!opt._zh) opt._zh = opt.textContent;
+      opt.textContent = lang === 'en' ? opt.dataset.en : opt._zh;
+    });
+    var msgZh = document.getElementById('message');
+    var msgEn = document.getElementById('message-en');
+    if (lang === 'en') {
+      msgZh.style.display = 'none'; msgZh.removeAttribute('name');
+      msgEn.style.display = ''; msgEn.name = 'message';
+    } else {
+      msgEn.style.display = 'none'; msgEn.removeAttribute('name');
+      msgZh.style.display = ''; msgZh.name = 'message';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    applyLang(localStorage.getItem('flb_lang') || 'zh');
+  });
+  document.addEventListener('flblang', function(e) { applyLang(e.detail); });
 </script>
 </body>
 </html>

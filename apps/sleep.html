@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sleep — FLB Studio</title>
+  <script src="../lang.js"></script>
   <link rel="stylesheet" href="../shared.css" />
 </head>
 <body>
 <header>
   <a class="logo" href="../index.html">FLB Studio</a>
   <nav>
-    <a href="../index.html#apps">产品</a>
-    <a href="../support.html">支持</a>
-    <a href="../contact.html">联系我们</a>
+    <a href="../index.html#apps"><span class="zh">产品</span><span class="en">Apps</span></a>
+    <a href="../support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="../contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
+    <button class="lang-btn" onclick="flbToggleLang()"><span class="zh">EN</span><span class="en">中</span></button>
   </nav>
 </header>
 
@@ -21,37 +23,66 @@
   <div>
     <div class="badge">APP</div>
     <h1>Sleep</h1>
-    <p>白噪音助眠，告别失眠，拥有高质量睡眠。</p>
+    <p>
+      <span class="zh">白噪音助眠，告别失眠，拥有高质量睡眠。</span>
+      <span class="en">White noise for better sleep — fall asleep faster and wake up refreshed.</span>
+    </p>
   </div>
 </div>
 
 <hr class="divider" />
 
 <div class="content">
-  <h2>关于 Sleep</h2>
-  <p>Sleep 提供精心挑选的白噪音与自然音景，帮助你快速放松、进入深度睡眠状态。</p>
+  <div class="zh">
+    <h2>关于 Sleep</h2>
+    <p>Sleep 提供精心挑选的白噪音与自然音景，帮助你快速放松、屏蔽环境干扰，进入深度睡眠状态。所有音频内置于应用中，完全离线可用。</p>
 
-  <h2>核心功能</h2>
-  <ul>
-    <li>多种白噪音与自然音景</li>
-    <li>可自定义的混音器</li>
-    <li>定时关闭功能</li>
-    <li>离线播放，无需网络</li>
-  </ul>
+    <h2>核心功能</h2>
+    <ul>
+      <li>多种白噪音与自然音景（雨声、海浪、森林等）</li>
+      <li>可自定义混音器，自由叠加多种音景</li>
+      <li>定时关闭功能，到时自动淡出停止</li>
+      <li>后台播放，锁屏后持续运行</li>
+      <li>完全离线，无需网络连接</li>
+      <li>无广告，无追踪</li>
+    </ul>
 
-  <h2>相关链接</h2>
-  <ul>
-    <li><a href="../privacy/sleep.html">隐私政策</a></li>
-    <li><a href="../terms/sleep.html">用户协议</a></li>
-    <li><a href="../support.html">支持 & FAQ</a></li>
-  </ul>
+    <h2>相关链接</h2>
+    <ul>
+      <li><a href="../privacy/sleep.html">隐私政策</a></li>
+      <li><a href="../terms/sleep.html">用户协议</a></li>
+      <li><a href="../support.html">支持 &amp; FAQ</a></li>
+    </ul>
+  </div>
+
+  <div class="en">
+    <h2>About Sleep</h2>
+    <p>Sleep offers a carefully curated collection of white noise and nature soundscapes to help you relax, block out distractions, and drift into deep sleep. All audio is bundled with the app — no internet needed.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+      <li>Variety of white noise and nature sounds (rain, ocean, forest, and more)</li>
+      <li>Customizable mixer — layer multiple soundscapes freely</li>
+      <li>Sleep timer with automatic fade-out</li>
+      <li>Background playback — keeps running after screen lock</li>
+      <li>Fully offline, no internet connection required</li>
+      <li>No ads, no tracking</li>
+    </ul>
+
+    <h2>Links</h2>
+    <ul>
+      <li><a href="../privacy/sleep.html">Privacy Policy</a></li>
+      <li><a href="../terms/sleep.html">Terms of Use</a></li>
+      <li><a href="../support.html">Support &amp; FAQ</a></li>
+    </ul>
+  </div>
 </div>
 
 <footer>
   <p>© 2025 FLB Studio. All rights reserved.</p>
   <p style="margin-top:12px">
-    <a href="../support.html">支持</a>
-    <a href="../contact.html">联系我们</a>
+    <a href="../support.html"><span class="zh">支持</span><span class="en">Support</span></a>
+    <a href="../contact.html"><span class="zh">联系我们</span><span class="en">Contact</span></a>
   </p>
 </footer>
 </body>

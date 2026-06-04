@@ -1,6 +1,6 @@
 # FLB Studio Site
 
-FLB Studio 官方网站，基于纯静态 HTML，托管于 GitHub Pages。
+FLB Studio 官方网站，基于纯静态 HTML，托管于 GitHub Pages，支持中英双语。
 
 ## 站点结构
 
@@ -8,15 +8,17 @@ FLB Studio 官方网站，基于纯静态 HTML，托管于 GitHub Pages。
 flb_site/
 ├── index.html          # 营销首页
 ├── shared.css          # 公共样式
+├── lang.js             # 中英语言切换
 ├── support.html        # 支持 & FAQ
 ├── contact.html        # 联系表单
-├── add_app.sh          # 一键新增 APP 脚本
+├── add_app.sh          # 一键新增 APP
+├── remove_app.sh       # 一键删除 APP
 ├── apps/
 │   └── {app_id}.html   # APP 介绍页
 ├── privacy/
-│   └── {app_id}.html   # 隐私政策页
+│   └── {app_id}.html   # 隐私政策
 └── terms/
-    └── {app_id}.html   # 用户协议页
+    └── {app_id}.html   # 用户协议
 ```
 
 ## 新增 APP 页面
@@ -32,29 +34,33 @@ flb_site/
 | `app_id` | 英文 ID，小写，用于文件名和 URL | `weather` |
 | `app_name` | 应用显示名称 | `Weather` |
 | `emoji_or_icon` | Emoji 图标，或本地图片路径 | `⛅` 或 `icons/weather.png` |
-| `描述` | 可选，应用简介 | `精准天气预报` |
+| `描述` | 可选，应用简介（中文） | `精准天气预报` |
 
 ### 示例
 
-**使用 Emoji 图标：**
 ```bash
 ./add_app.sh weather "Weather" "⛅" "精准天气预报，掌握每日天气变化"
-```
-
-**使用本地图片：**
-```bash
-./add_app.sh weather "Weather" "icons/weather.png" "精准天气预报，掌握每日天气变化"
 ```
 
 ### 执行后自动生成
 
 ```
-apps/weather.html
-privacy/weather.html
-terms/weather.html
+apps/weather.html       ← APP 介绍页（中英双语模板）
+privacy/weather.html    ← 隐私政策（中英双语）
+terms/weather.html      ← 用户协议（中英双语）
 ```
 
 同时自动在 `index.html` 首页插入该 APP 的卡片。
+
+### 生成后待补充
+
+新生成的文件里含有 `<!-- TODO: English ... -->` 注释，用 grep 快速找到：
+
+```bash
+grep -rn "TODO" apps/weather.html
+```
+
+填写英文内容后再推送上线。
 
 ### 完整流程
 
@@ -62,15 +68,13 @@ terms/weather.html
 # 1. 生成页面
 ./add_app.sh weather "Weather" "⛅" "精准天气预报，掌握每日天气变化"
 
-# 2. 编辑 apps/weather.html，补全核心功能列表
+# 2. 补全英文内容（搜索 TODO 标记）
 
 # 3. 推送上线
 git add .
 git commit -m "feat: add Weather pages"
 git push
 ```
-
-推送后 GitHub Pages 约 1 分钟自动部署，页面即可访问。
 
 ### 部署后 URL
 
@@ -95,12 +99,16 @@ https://flbapp.com/terms/weather.html
 - `index.html` 中的对应卡片
 
 **示例：**
+
 ```bash
 ./remove_app.sh weather
-
-# 确认提示后推送
+# 确认后推送
 git add . && git commit -m "feat: remove Weather pages" && git push
 ```
+
+## 语言切换
+
+所有页面内置中英文双语，右上角点击 **EN / 中** 切换，偏好保存在浏览器本地（`localStorage`），跨页面保持一致。
 
 ## 当前 APP 列表
 
@@ -108,4 +116,3 @@ git add . && git commit -m "feat: remove Weather pages" && git push
 |-----|--------|---------|---------|
 | 🧭 Compass | [apps/compass.html](apps/compass.html) | [privacy/compass.html](privacy/compass.html) | [terms/compass.html](terms/compass.html) |
 | 🌙 Sleep | [apps/sleep.html](apps/sleep.html) | [privacy/sleep.html](privacy/sleep.html) | [terms/sleep.html](terms/sleep.html) |
-| ⚒️ Forge | [apps/forge.html](apps/forge.html) | [privacy/forge.html](privacy/forge.html) | [terms/forge.html](terms/forge.html) |
