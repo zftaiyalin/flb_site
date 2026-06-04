@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="shared.css" />
   <style>
     .contact-wrap { max-width: 640px; margin: 0 auto; padding: 48px 48px 80px; }
+    .thanks-banner { display:none; background:rgba(129,140,248,0.1); border:1px solid rgba(129,140,248,0.3); border-radius:12px; padding:24px; text-align:center; margin-bottom:24px; }
+    .thanks-banner h3 { margin-bottom:8px; }
+    .thanks-banner p { color:#888; font-size:14px; }
     .form-group { margin-bottom: 20px; }
     label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #ccc; }
     input, textarea, select {
@@ -51,7 +54,14 @@
 <hr class="divider" />
 
 <div class="contact-wrap">
-  <form action="https://formspree.io/zhiaifei@163.com" method="POST">
+  <div class="thanks-banner" id="thanks">
+    <h3>消息已发送 ✓</h3>
+    <p>感谢你的反馈，我们会在 1-2 个工作日内回复。</p>
+  </div>
+  <form action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="fb09df24-fe29-42d6-a9f5-091d6959b271" />
+    <input type="hidden" name="subject" value="FLB Studio 用户反馈" />
+    <input type="hidden" name="redirect" value="https://flbapp.com/contact.html?thanks=1" />
     <div class="form-group">
       <label for="app">相关应用</label>
       <select id="app" name="app">
@@ -96,5 +106,11 @@
     <a href="contact.html">联系我们</a>
   </p>
 </footer>
+<script>
+  if (location.search.includes('thanks=1')) {
+    document.getElementById('thanks').style.display = 'block';
+    document.querySelector('form').style.display = 'none';
+  }
+</script>
 </body>
 </html>
