@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Second Brain — FLB Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e8e8f0; }
+
+    /* ── Header ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px); background: rgba(10,10,15,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: #fff; text-decoration: none; }
+    nav { display: flex; align-items: center; }
+    nav a { color: #aaa; text-decoration: none; margin-left: 32px; font-size: 15px; transition: color .2s; }
+    nav a:hover { color: #fff; }
+    nav a.active { color: #818cf8; }
+
+    /* ── Layout ── */
+    .container { display: flex; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px; min-width: 240px; padding: 40px 0;
+      position: sticky; top: 72px; height: calc(100vh - 72px);
+      overflow-y: auto; border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .sidebar-section { margin-bottom: 32px; }
+    .sidebar-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #555; padding: 0 24px; margin-bottom: 8px;
+    }
+    .sidebar-link {
+      display: block; padding: 6px 24px; font-size: 14px; color: #888;
+      text-decoration: none; border-radius: 0; transition: color .15s, background .15s;
+      cursor: pointer;
+    }
+    .sidebar-link:hover { color: #e8e8f0; background: rgba(255,255,255,0.04); }
+    .sidebar-link.active { color: #818cf8; background: rgba(129,140,248,0.08); }
+
+    /* ── Content ── */
+    .content { flex: 1; padding: 48px 48px 80px; min-width: 0; }
+
+    .doc-section { display: none; }
+    .doc-section.visible { display: block; }
+
+    /* ── Typography ── */
+    .doc-section h1 {
+      font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .doc-section .subtitle { color: #666; font-size: 14px; margin-bottom: 40px; }
+
+    .doc-section h2 {
+      font-size: 18px; font-weight: 700; color: #e8e8f0;
+      margin: 36px 0 12px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .doc-section h3 {
+      font-size: 15px; font-weight: 600; color: #c084fc; margin: 24px 0 8px;
+    }
+    .doc-section p { font-size: 14px; color: #999; line-height: 1.8; margin-bottom: 12px; }
+    .doc-section ul { margin: 8px 0 16px 20px; }
+    .doc-section li { font-size: 14px; color: #999; line-height: 1.8; margin-bottom: 4px; }
+    .doc-section strong { color: #e8e8f0; font-weight: 600; }
+
+    /* ── Card Grid ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 24px 0; }
+    .card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px; cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: rgba(129,140,248,0.35); }
+    .card-emoji { font-size: 28px; margin-bottom: 12px; }
+    .card-title { font-size: 16px; font-weight: 700; color: #e8e8f0; margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* ── Tag ── */
+    .tag {
+      display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
+      margin: 2px; background: rgba(129,140,248,0.12); color: #818cf8; border: 1px solid rgba(129,140,248,0.2);
+    }
+    .tag.green { background: rgba(52,211,153,0.1); color: #34d399; border-color: rgba(52,211,153,0.2); }
+    .tag.red { background: rgba(248,113,113,0.1); color: #f87171; border-color: rgba(248,113,113,0.2); }
+    .tag.yellow { background: rgba(251,191,36,0.1); color: #fbbf24; border-color: rgba(251,191,36,0.2); }
+
+    /* ── Decision Block ── */
+    .decision-block {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 20px 24px; margin: 20px 0;
+    }
+    .decision-block .decision-label {
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #818cf8; margin-bottom: 8px;
+    }
+    .decision-block .decision-content { font-size: 14px; color: #c8c8d8; line-height: 1.7; }
+    .decision-block .reason-label {
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #34d399; margin-top: 12px; margin-bottom: 6px;
+    }
+    .decision-block .reject-label {
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #f87171; margin-top: 12px; margin-bottom: 6px;
+    }
+
+    /* ── Prompt Block ── */
+    .prompt-box {
+      background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 20px; margin: 16px 0;
+      font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+      font-size: 13px; color: #a8b4c8; line-height: 1.7;
+      white-space: pre-wrap; word-break: break-word; overflow-x: auto;
+    }
+    .prompt-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .prompt-header-label { font-size: 12px; color: #555; font-family: inherit; }
+    .copy-btn {
+      font-size: 12px; color: #818cf8; background: rgba(129,140,248,0.1);
+      border: 1px solid rgba(129,140,248,0.2); border-radius: 6px;
+      padding: 4px 10px; cursor: pointer; transition: background .2s;
+    }
+    .copy-btn:hover { background: rgba(129,140,248,0.2); }
+
+    /* ── Lesson List ── */
+    .lesson-item {
+      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; gap: 16px;
+    }
+    .lesson-item:last-child { border-bottom: none; }
+    .lesson-bullet { color: #818cf8; font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+    .lesson-text { font-size: 14px; color: #bbb; line-height: 1.7; }
+
+    /* ── Hero ── */
+    .docs-hero {
+      padding: 48px 0 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 40px;
+    }
+    .docs-hero h1 {
+      font-size: 40px; font-weight: 800; letter-spacing: -2px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .docs-hero p { font-size: 16px; color: #666; max-width: 480px; line-height: 1.7; }
+    .docs-stats { display: flex; gap: 32px; margin-top: 24px; }
+    .stat-item { }
+    .stat-num { font-size: 28px; font-weight: 700; color: #e8e8f0; }
+    .stat-label { font-size: 12px; color: #555; margin-top: 2px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 48px 24px; border-top: 1px solid rgba(255,255,255,0.06);
+      color: #555; font-size: 14px;
+    }
+    footer a { color: #666; text-decoration: none; margin: 0 12px; }
+    footer a:hover { color: #aaa; }
+
+    @media (max-width: 768px) {
+      header { padding: 16px 20px; }
+      .sidebar { display: none; }
+      .content { padding: 32px 20px 60px; }
+      .container { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">FLB Studio</a>
+  <nav>
+    <a href="/">产品</a>
+    <a href="support.html">支持</a>
+    <a href="docs.html" class="active">知识库</a>
+    <a href="contact.html">联系我们</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">概览</div>
+      <a class="sidebar-link active" onclick="showSection('home')">首页</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Apps</div>
+      <a class="sidebar-link" onclick="showSection('app-compass')">🧭 罗盘 App</a>
+      <a class="sidebar-link" onclick="showSection('app-sleep')">🌙 睡眠 App</a>
+      <a class="sidebar-link" onclick="showSection('app-forge')">🔨 打铁 App</a>
+      <a class="sidebar-link" onclick="showSection('app-emperor')">👑 皇帝模拟器</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Decisions</div>
+      <a class="sidebar-link" onclick="showSection('dec-compass')">罗盘决策</a>
+      <a class="sidebar-link" onclick="showSection('dec-sleep')">睡眠App决策</a>
+      <a class="sidebar-link" onclick="showSection('dec-forge')">打铁App决策</a>
+      <a class="sidebar-link" onclick="showSection('dec-infra')">基础设施决策</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Lessons</div>
+      <a class="sidebar-link" onclick="showSection('lessons-product')">产品经验</a>
+      <a class="sidebar-link" onclick="showSection('lessons-tech')">技术经验</a>
+      <a class="sidebar-link" onclick="showSection('lessons-ai')">AI 工作流</a>
+      <a class="sidebar-link" onclick="showSection('lessons-review')">上架审核</a>
+      <a class="sidebar-link" onclick="showSection('lessons-ads')">广告变现</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Prompts</div>
+      <a class="sidebar-link" onclick="showSection('prompt-sleep-design')">睡眠App设计改造</a>
+      <a class="sidebar-link" onclick="showSection('prompt-forge-design')">打铁App界面设计</a>
+      <a class="sidebar-link" onclick="showSection('prompt-appstore')">App Store宣传图</a>
+      <a class="sidebar-link" onclick="showSection('prompt-flutter-ui')">Flutter UI还原</a>
+      <a class="sidebar-link" onclick="showSection('prompt-heavy-task')">heavy_task.skill</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- ── HOME ── -->
+    <section id="home" class="doc-section visible">
+      <div class="docs-hero">
+        <h1>Second Brain</h1>
+        <p>FLB Studio 产品知识库——产品决策、技术经验、AI 工作流、Prompt 模板的沉淀与复用。</p>
+        <div class="docs-stats">
+          <div class="stat-item">
+            <div class="stat-num">4</div>
+            <div class="stat-label">进行中的 Apps</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">关键决策</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">5</div>
+            <div class="stat-label">可复用 Prompts</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Apps 一览</h2>
+      <div class="card-grid">
+        <div class="card" onclick="showSection('app-compass')">
+          <div class="card-emoji">🧭</div>
+          <div class="card-title">罗盘 App</div>
+          <div class="card-desc">国风罗盘 + 八字 + 黄历 + 风水，Flutter 跨平台，国风红金 UI</div>
+        </div>
+        <div class="card" onclick="showSection('app-sleep')">
+          <div class="card-emoji">🌙</div>
+          <div class="card-title">睡眠 App</div>
+          <div class="card-desc">声音疗愈 + AI 睡眠 + 噪音检测，治愈可爱风格，OLED 多主题</div>
+        </div>
+        <div class="card" onclick="showSection('app-forge')">
+          <div class="card-emoji">🔨</div>
+          <div class="card-title">打铁 App</div>
+          <div class="card-desc">赛博 ASMR + AI 大马士革钢纹生成，工业美学，本地视频导出</div>
+        </div>
+        <div class="card" onclick="showSection('app-emperor')">
+          <div class="card-emoji">👑</div>
+          <div class="card-title">皇帝模拟器</div>
+          <div class="card-desc">AI 国风人生模拟游戏，奏折系统 + 因果系统 + 命运演出</div>
+        </div>
+      </div>
+
+      <h2>最近决策</h2>
+      <div class="decision-block">
+        <div class="decision-label">2026-06-04 · 罗盘App</div>
+        <div class="decision-content">V2 增加八字排盘，本地计算不走云端；Android 不做 Watch 生态</div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-label">2026-06-04 · 睡眠App</div>
+        <div class="decision-content">视觉风格从"冷淡科技感"改为"治愈可爱陪伴感"</div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-label">2026-06-04 · AI 工作流</div>
+        <div class="decision-content">创建 heavy_task.skill；南湖 MCP OC 代码替代 Figma 节点树作为 Flutter 重构中间层</div>
+      </div>
+    </section>
+
+    <!-- ── APP: COMPASS ── -->
+    <section id="app-compass" class="doc-section">
+      <h1>🧭 罗盘 App</h1>
+      <p class="subtitle">中国传统国风工具 App</p>
+      <div style="margin-bottom:24px">
+        <span class="tag green">iOS + Android</span>
+        <span class="tag">Flutter</span>
+        <span class="tag">RevenueCat</span>
+        <span class="tag">国风 UI</span>
+      </div>
+
+      <h2>产品定位</h2>
+      <p>融合罗盘、八字、黄历、风水、灵签、指南针于一体的国风工具 App。UI 风格：国风红金、水墨、宣纸质感。</p>
+
+      <h2>MVP 功能</h2>
+      <ul>
+        <li>电子罗盘（实时方位）</li>
+        <li>指南针</li>
+        <li>黄历（日历）</li>
+        <li>灵签/抽签</li>
+        <li>天气</li>
+        <li>基础风水方位展示</li>
+      </ul>
+
+      <h2>已确定功能</h2>
+      <ul>
+        <li>八字排盘（<strong>本地计算</strong>，不走云端）</li>
+        <li>风水吉位方向</li>
+        <li>RevenueCat 订阅体系</li>
+        <li>CSJ（国内）/ AdMob（海外）广告</li>
+        <li>Firebase 基础（Analytics + Crashlytics，不做复杂埋点）</li>
+      </ul>
+
+      <h2>后续版本功能</h2>
+      <ul>
+        <li><strong>V2：</strong> Widget / 锁屏组件 / 灵动岛方向追踪</li>
+        <li><strong>V2：</strong> Apple Watch（方位 Complication、风水模式）</li>
+        <li><strong>V3：</strong> 八字 AI 解读</li>
+        <li><strong>Android 不做：</strong> Watch 生态（价值低，碎片化）</li>
+      </ul>
+
+      <h2>技术方案</h2>
+      <ul>
+        <li>Flutter 全平台开发，本地排盘算法</li>
+        <li>广告层抽象：AdService 接口，CSJ/AdMob 实现分离</li>
+        <li>蓝湖/南湖 MCP + OC 代码作为 UI 还原中间层</li>
+      </ul>
+
+      <h2>风险与问题</h2>
+      <ul>
+        <li>Apple 审核对玄学/命理内容有风险，需定位为"工具"而非"算命"</li>
+        <li>国风 UI 维护成本较高（大量装饰素材）</li>
+      </ul>
+    </section>
+
+    <!-- ── APP: SLEEP ── -->
+    <section id="app-sleep" class="doc-section">
+      <h1>🌙 睡眠 App</h1>
+      <p class="subtitle">Ambient Matrix / NoiseSleep — 声音疗愈 + AI 睡眠</p>
+      <div style="margin-bottom:24px">
+        <span class="tag green">iOS + Android</span>
+        <span class="tag">Flutter</span>
+        <span class="tag yellow">治愈可爱风</span>
+        <span class="tag">OLED 多主题</span>
+      </div>
+
+      <h2>产品定位</h2>
+      <p>"声音艺术 + AI 睡眠疗愈 + 沉浸氛围系统"，不是普通噪音检测工具。用户打开后像进入一个<strong>"声音宇宙"</strong>。</p>
+      <p>参考标杆：Calm、Endel、Portal、Dark Noise。</p>
+
+      <h2>MVP 功能</h2>
+      <ul>
+        <li>实时分贝检测（声音雷达，非传统仪表盘）</li>
+        <li>白噪音播放器（多种白噪音 + 专属动态背景）</li>
+        <li>AI 睡眠推荐</li>
+        <li>订阅页面</li>
+      </ul>
+
+      <h2>UI 风格方向（已更新）</h2>
+      <p>从"冷淡科技感"改为<strong>治愈可爱、温暖陪伴感</strong>。目标感受：「好舒服、像进入梦境、想每天晚上打开」。</p>
+      <ul>
+        <li>保留深色背景，紫色系 → 奶紫/粉紫/蓝紫</li>
+        <li>按钮更柔软有漂浮感，卡片更圆润果冻感</li>
+        <li>呼吸球：像月亮/梦境泡泡，不要科幻能量核心</li>
+        <li>多主题：深空黑金 / 极光蓝紫 / 森林雨夜 / 东京雨夜 等 10 个</li>
+      </ul>
+
+      <h2>平台策略</h2>
+      <ul>
+        <li><strong>iOS：</strong> Live Activity / Widget / Dynamic Island 视觉 / OLED 光效（V2+）</li>
+        <li><strong>Android：</strong> 后台稳定播放 + 通知栏控制 + 大尺寸 Widget，<strong>不做 Watch 生态</strong></li>
+      </ul>
+
+      <h2>风险与问题</h2>
+      <ul>
+        <li>Android 后台播放稳定性是核心技术难点（需要原生 Kotlin 插件）</li>
+        <li>Apple Watch 工作量大，建议 V3 再做</li>
+      </ul>
+    </section>
+
+    <!-- ── APP: FORGE ── -->
+    <section id="app-forge" class="doc-section">
+      <h1>🔨 打铁 App</h1>
+      <p class="subtitle">Cyber Smith / 赛博打铁 — 工业 ASMR + AI 钢纹生成</p>
+      <div style="margin-bottom:24px">
+        <span class="tag green">iOS + Android</span>
+        <span class="tag">Flutter</span>
+        <span class="tag">本地视频导出</span>
+        <span class="tag red">无社区</span>
+      </div>
+
+      <h2>产品定位</h2>
+      <p>工业锻造 ASMR + AI 大马士革钢纹生成 + 收藏成长。<strong>内容外溢型产品</strong>：用户打铁 → 生成钢纹 → 导出视频 → 发到 TikTok/抖音/小红书。</p>
+
+      <h2>核心决策</h2>
+      <ul>
+        <li><strong>不做社区</strong>（依赖外部平台传播，服务器成本接近零）</li>
+        <li><strong>MVP 完全本地化</strong>（不需要服务器）</li>
+        <li><strong>核心是极致视频导出</strong>（9:16/1:1/16:9 多格式）</li>
+      </ul>
+
+      <h2>技术方案</h2>
+      <ul>
+        <li>Shader + noise + procedural texture 生成钢纹（伪高级感）</li>
+        <li>序列帧火焰 + 粒子贴图 + 镜头震动 + 动态模糊</li>
+        <li>本地视频录制：ReplayKit (iOS) / MediaProjection (Android)</li>
+        <li>MVP 第一版不要真 3D / 真物理模拟（性能成本太高）</li>
+      </ul>
+
+      <h2>UI 设计方向</h2>
+      <p>电影级工业美学：哑光黑 / 熔岩橙 / 金属银。参考：AAA 游戏 UI / Apple Design Award 作品。</p>
+
+      <h2>风险与问题</h2>
+      <ul>
+        <li>视频生成性能（粒子+shader+编码会吃 GPU，iPhone 可能发热）</li>
+        <li>参数化算法能否满足用户对"AI 生成"的心理预期</li>
+      </ul>
+    </section>
+
+    <!-- ── APP: EMPEROR ── -->
+    <section id="app-emperor" class="doc-section">
+      <h1>👑 皇帝模拟器</h1>
+      <p class="subtitle">天命 / 帝王命 / 朕的一生 — AI 国风人生模拟游戏</p>
+      <div style="margin-bottom:24px">
+        <span class="tag green">iOS + Android</span>
+        <span class="tag">Flutter</span>
+        <span class="tag">LLM API</span>
+        <span class="tag yellow">单机本地化</span>
+      </div>
+
+      <h2>产品定位</h2>
+      <p><strong>"规则驱动 + AI 命运演出"</strong>的人生模拟游戏（非 AI 聊天产品）。核心目标：让玩家产生"这一局没打好，我想再活一次"。</p>
+
+      <h2>核心系统</h2>
+      <ul>
+        <li><strong>时间推进系统：</strong>【下一年】核心按钮</li>
+        <li><strong>国家数值：</strong>国库 / 民心 / 皇权 / 军权 / 世家势力 / 边疆稳定度 / 太子支持率</li>
+        <li><strong>奏折系统：</strong>亲自批阅 / 交由内阁（中性随机）/ 置之不理（偏坏）</li>
+        <li><strong>AI 命运事件：</strong>每半年读取数值 + 历史摘要，生成"戏剧性演出"</li>
+        <li><strong>因果系统：</strong>玩家历史行为影响未来（长期忽视边疆 → 边疆叛乱）</li>
+        <li><strong>结局系统：</strong>盛世明君 / 铁血暴君 / 傀儡皇帝 / 长生疯帝 / 亡国之君 + AI 个性化史书</li>
+      </ul>
+
+      <h2>广告设计</h2>
+      <ul>
+        <li><strong>核心广告位：</strong>结局后"生成完整史书"（高情绪节点 + 激励广告）</li>
+        <li><strong>救场广告：</strong>即将亡国时低概率触发【天降祥瑞】</li>
+        <li><strong>主动广告：</strong>资源旁皇家按钮，玩家主动观看</li>
+        <li>禁止：高频插屏 / 朝堂处理中断广告 / Banner</li>
+      </ul>
+
+      <h2>UI 美术方向</h2>
+      <p>"淡雅国风 + 皇家极简"。参考：水墨山水 / 宣纸 / 卷轴 / 编年史。禁止：页游风 / 金灿灿 / 卡通化。</p>
+
+      <h2>长期方向</h2>
+      <p>形成"AI 人生模拟宇宙"：皇帝 → 修仙 → 豪门 → 星际 → 黑帮，复用同一套系统框架，只换世界观/美术/Prompt/事件模板。</p>
+    </section>
+
+    <!-- ── DECISIONS ── -->
+    <section id="dec-compass" class="doc-section">
+      <h1>决策记录</h1>
+      <p class="subtitle">2026-06-04 · 罗盘 App</p>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">V2 增加八字排盘模块</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">提高付费率，增加差异化，国学用户对八字需求高</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">云端排盘 — 增加服务器成本，增加 Apple 审核复杂度</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">MVP 不做数据埋点，只接 Firebase 基础 SDK（Core + Analytics + Crashlytics）</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">MVP 阶段核心是验证产品留存，不需要精细运营数据</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">完整事件埋点系统 — 独立开发资源有限，留存验证更重要</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">Android 不做 Watch 生态和灵动岛等价功能</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">Wear OS 用户量远小于 Apple Watch，各厂系统差异大，兼容成本高，价值低</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">Android Wear OS 手表 App — 投入产出比太低</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">iOS V2 做 Widget / 锁屏组件 / 灵动岛，V3 做 Apple Watch</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">iOS 用户愿意为高级生态体验付费，这些功能也是订阅升级点</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">V1 就做 Watch 和 Widget — 会分散精力，爆工作量</div>
+      </div>
+    </section>
+
+    <section id="dec-sleep" class="doc-section">
+      <h1>决策记录</h1>
+      <p class="subtitle">2026-06-04 · 睡眠 App</p>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">重新设计视觉风格：从"冷淡科技感"改为"治愈可爱、温暖陪伴感"</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">当前界面缺少情绪温度，用户需要"睡眠陪伴产品"而非"睡眠效率工具"</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">保留冷淡科技风 — 与 Calm/Endel 治愈风格无差异化竞争</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">iOS 专注 Apple 全家桶高级感，Android 只做稳定播放和基础 Widget</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">iOS 用户更愿为高级体验付费，Android 生态碎片化投资回报低</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">iOS/Android 功能完全对齐 — 分散大量精力在低价值适配上</div>
+      </div>
+    </section>
+
+    <section id="dec-forge" class="doc-section">
+      <h1>决策记录</h1>
+      <p class="subtitle">2026-06-04 · 打铁 App</p>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">不做社区系统，依赖用户自行发到外部平台（TikTok/抖音/小红书）传播</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">社区需要内容密度，前期用户量不足；打铁视觉天然适合短视频，内容外溢效果更好</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">内置用户广场/分享社区 — 维护成本高，用户量低时社区死气沉沉</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">MVP 完全本地化，不需要服务器</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">本地化响应更快，沉浸感更强，运营成本接近零，全球可用</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">服务端云生成钢纹 — 视频上传成本高，MVP 阶段不必要</div>
+      </div>
+    </section>
+
+    <section id="dec-infra" class="doc-section">
+      <h1>决策记录</h1>
+      <p class="subtitle">2026-06-04 · 基础设施与工作流</p>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">营销网站 + 支持页面合并，GitHub Pages 静态部署，每个 App 独立 privacy/terms 页面</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">免费、稳定、满足 App Store/Google Play 审核 URL 要求</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">多个独立网站或 CMS — 维护成本高，不必要</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">AI 工作流分级：小改动手改，中等用 Claude Code，大任务用 heavy_task.skill（OpenCode+DeepSeek）</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">工作流本身是成本，过度流程化让小改动效率比手改还低；bug 修复最怕低质量模型无限试错</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">所有任务统一走 Agent 工作流 — "改个 padding 走 5 步流程" 是反模式</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">UI 还原：截图视觉理解 + 南湖 MCP OC 代码作为中间层，AI 按 Flutter 习惯重构</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">OC/UIKit 代码已工程化，UIView→Container 映射直接，AI 转 Flutter 更稳定</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">直接用 Figma MCP 完整节点树 — 噪音多，AI 容易生成错误结构</div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-label">决策</div>
+        <div class="decision-content">服务器安全组只开放 22/80/443/8443 端口</div>
+        <div class="reason-label">原因</div>
+        <div class="decision-content">公网服务器每天都有自动扫描，暴露 SSH/MySQL/Redis 等端口极易被攻击</div>
+        <div class="reject-label">放弃方案</div>
+        <div class="decision-content">0.0.0.0/0 全端口允许 — 安全风险极高</div>
+      </div>
+    </section>
+
+    <!-- ── LESSONS ── -->
+    <section id="lessons-product" class="doc-section">
+      <h1>产品经验</h1>
+      <p class="subtitle">独立开发产品思维沉淀</p>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">MVP 阶段的核心目标是验证"核心循环是否成立"，不是验证收入</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">独立开发前期平庸是正常阶段，增长是阶梯式的：长期没变化 → 某天突然跨台阶（ASO 起量/某关键词命中/某功能留存起来）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">社区需要内容密度，独立开发前期用户量不足，过早社区化容易死；"内容外溢型产品"（用户在外部平台传播）是独立开发的低成本增长路线</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">RevenueCat 跑通一次后，新项目基本只需复制配置 + 换 product id；真正浪费时间的是 App Store/Google Play 的平台配置</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">产品真正有价值的不是代码，而是产品判断、商业判断和决策逻辑——"为什么做出这个决定"几年后还值钱，代码半年后可能重写</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">独立开发最危险的模式：AI 降低了"开始一个新项目"的成本，导致永远在新鲜感里，旧项目长不大。20 个 MVP 没有 1 个真正长大</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text">技术能力 ≠ 长期商业成功；真正难的是：长期更新、用户增长、ASO 长期积累、数据分析、商业化优化——这些才是真正吃时间的</div>
+      </div>
+    </section>
+
+    <section id="lessons-tech" class="doc-section">
+      <h1>技术经验</h1>
+      <p class="subtitle">Flutter 开发与服务器运维踩坑</p>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>服务器安全：</strong>阿里云安全组只开放必要端口（22/80/443），公网服务器每天都被自动扫描，全端口开放极危险</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>TLS 兼容问题：</strong>Nginx 1.31.1 + OpenSSL 3.5 的 ML-KEM 后量子密钥交换会导致域名访问 TLS reset，IP 直连正常。修复：在 Nginx server 块加 <code>ssl_conf_command Groups X25519:secp256r1:secp384r1;</code></div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Flutter 白噪音 Android：</strong>必须处理后台播放/锁屏播放/通知栏控制/电池优化/息屏不断音/音频焦点，这些需要原生 Kotlin 插件</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Firebase：</strong>MVP 阶段只接 Core + Analytics + Crashlytics，不做复杂事件埋点，先跑起来</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>AdMob ARPU：</strong>必须关联 Firebase 才能计算（Firebase 提供 DAU，AdMob 只有收入）；不关联不影响广告，只是看不到 ARPU 和用户价值分析</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Google Play 内购测试：</strong>添加 License Tester 账号后，支付弹窗出现"Test card always approves"，完全不扣费；测试订阅周期被压缩（月付 → 几分钟）</div>
+      </div>
+    </section>
+
+    <section id="lessons-ai" class="doc-section">
+      <h1>AI 工作流经验</h1>
+      <p class="subtitle">AI 工具组合与稳定化使用方式</p>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>宣传图生成：</strong>用"模板替换"思路，先生成一张母版，后续只替换截图和文案；AI 负责美术素材，Figma 负责排版系统，稳定性高很多</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>模板继承 Prompt：</strong><em>"保持第一张图中除手机截图区域和宣传文案区域之外的所有视觉元素完全不变，不要重新设计海报"</em> — 比描述风格（写祥云/梅花/仙鹤）的 Prompt 可复用性高很多</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Flutter UI 还原：</strong>蓝湖/南湖 OC/UIKit 代码比 Figma 节点树更好的 Flutter 重构中间层；OC 代码已工程化，UIView→Container 映射直接，AI 理解更准确</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>JSX 中间层：</strong>JSX 是 AI 最容易理解的 UI 中间语言，JSX→Flutter 比设计稿→Flutter 稳定，因为 JSX 已进入"组件树语义层"</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>任务分级：</strong>微小改动自己手改最快；中等任务 Claude Code/Codex；大任务/重复劳动才用 heavy_task.skill（OpenCode+DeepSeek）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>DeepSeek 适合：</strong>重复劳动/样板代码/批量 CRUD/DTO 生成；不适合：架构设计/复杂状态/动画/高质量 bug 修复（低质量模型修 bug 容易扩散）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>图片生成额度：</strong>ChatGPT 网页版生图不消耗 Codex 额度（两套配额体系独立）；大量生图放 ChatGPT，编程放 Claude Code/Codex</div>
+      </div>
+    </section>
+
+    <section id="lessons-review" class="doc-section">
+      <h1>上架审核经验</h1>
+      <p class="subtitle">App Store / Google Play 审核踩坑</p>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>App Transfer 必填项：</strong>Support URL / Privacy Policy URL / App Review Contact（姓名/电话/邮箱），缺任何一个"批准"按钮都不可点击</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Review 电话格式：</strong><code>+86 手机号</code>（国际格式，苹果审核可能真的打电话确认，必须真实可接）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>AdMob 验证（iOS）：</strong>App 必须在 App Store Connect 创建 App record（即使未上架），AdMob 才能验证 App 所有权；播放广告 ≠ 立即通过验证，这是两件事</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>AdMob 账号活跃延迟：</strong>播放广告后后台有延迟（几小时到一天），看不到数据不代表无效；只要广告请求到达后台就能续命，不要立刻判断失效</div>
+      </div>
+    </section>
+
+    <section id="lessons-ads" class="doc-section">
+      <h1>广告变现经验</h1>
+      <p class="subtitle">AdMob / CSJ / RevenueCat</p>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>平台选择：</strong>国内用户优先穿山甲（CSJ）；海外用户优先 AdMob；MVP 阶段不上 MAX 聚合（配置复杂，包体大）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>RevenueCat Webhook 必处理：</strong>INITIAL_PURCHASE / RENEWAL / EXPIRATION / CANCELLATION；BILLING_ISSUE 不要立即封权限（可能在宽限期）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>广告设计原则：</strong>不能高频打断、不破坏沉浸感；最好的广告位是"高情绪节点"（游戏结局/重要奖励/救场）</div>
+      </div>
+      <div class="lesson-item">
+        <div class="lesson-bullet">▸</div>
+        <div class="lesson-text"><strong>Flutter 广告层架构：</strong>抽象成 AdService 接口，国内 CSJ 实现和海外 AdMob 实现分离，方便后续切换或接入 MAX 聚合</div>
+      </div>
+    </section>
+
+    <!-- ── PROMPTS ── -->
+    <section id="prompt-sleep-design" class="doc-section">
+      <h1>Prompt：睡眠 App 设计风格改造</h1>
+      <p class="subtitle">Claude Design — 从"冷淡科技感"改为"治愈可爱陪伴感"</p>
+      <p style="margin-bottom:24px;color:#666;">用于 Claude Design，将睡眠/冥想 App 整体视觉风格改造。保留深色睡眠氛围的同时增加情绪温度和陪伴感。</p>
+      <div class="prompt-header">
+        <span class="prompt-header-label">Prompt</span>
+        <button class="copy-btn" onclick="copyPrompt('prompt-sleep-content')">复制</button>
+      </div>
+      <div class="prompt-box" id="prompt-sleep-content">重新设计当前冥想 / 睡眠 App 的整体视觉风格。
+
+保留：
+- 深色睡眠氛围
+- 紫色系主色调
+- 冥想与呼吸主题
+- 高级感与沉浸感
+
+但是整体视觉方向需要从：
+"冷淡、科技、抽象、神秘"
+调整为：
+"可爱、治愈、柔软、温暖、陪伴感、梦境感"
+
+整体关键词：
+cute dreamy cozy soft healing sleepy kawaii emotional companion bedtime
+
+视觉风格参考：治愈系睡眠App / 日系梦境风 / 柔和发光 UI / 云朵月亮星星漂浮粒子 / 毛玻璃果冻感 / 夜晚童话氛围
+
+色彩调整：
+- 更柔和的紫色，加入粉紫/奶紫/蓝紫
+- 增加暖色微光
+- 整体像"深夜里的温柔小夜灯"
+
+UI 元素：
+- 卡片：更圆润/更软/更像果冻/更轻盈
+- 按钮：更柔软/轻微漂浮感/像"晚安按钮"
+- 呼吸球：像月亮/梦境泡泡，不要科幻能量核心
+
+情绪化设计：
+整个App需要更像"一个在深夜陪伴你入睡的小伙伴"
+适当加入：小猫/小熊/梦境生物/云朵角色/晚安吉祥物
+但不要幼稚儿童化。目标年龄：20-35岁
+
+动效：更慢/更轻/更柔软/更像漂浮在空气里
+减少：科技扫描感/强节奏动画/生硬切换
+
+同时保持：高级感/iOS审美/精致UI/可商业化订阅产品质感
+最终应该是："高级治愈系睡眠陪伴App"</div>
+    </section>
+
+    <section id="prompt-forge-design" class="doc-section">
+      <h1>Prompt：打铁 App 界面设计</h1>
+      <p class="subtitle">Claude Design — 电影级工业美学 UI</p>
+      <p style="margin-bottom:24px;color:#666;">用于 Claude Design 生成赛博打铁 App 的游戏界面（首页/锻造页/钢纹展示/收藏馆/订阅页）。</p>
+      <div class="prompt-header">
+        <span class="prompt-header-label">Prompt</span>
+        <button class="copy-btn" onclick="copyPrompt('prompt-forge-content')">复制</button>
+      </div>
+      <div class="prompt-box" id="prompt-forge-content">设计一个电影级工业美学风格的移动APP游戏界面。
+APP名称：《Cyber Smith / 赛博打铁》
+
+整体风格必须像：AAA游戏UI / Apple Design Award作品 / 高级工业艺术 / 电影级视觉
+主色调：哑光黑 / 深灰 / 熔岩橙 / 火焰红 / 金属银
+
+核心关键词：工业美学/黑铁/熔炉/金属/火焰/火星/蒸汽/赛博朋克/重工业/机械力量感
+
+UI要有：金属反光/火焰动态光影/热浪扭曲/粒子效果/工业材质纹理/玻璃拟态
+动画：丝滑/有重量感/有机械反馈/有沉浸感
+加入：火星粒子/锤击震动/蒸汽喷发/熔炉火焰呼吸感/热空气扭曲
+
+---
+
+首页：超大Hero熔炉背景/中央悬浮烧红钢铁/漂浮火星粒子
+按钮：开始锻造/解压模式/收藏馆/Premium
+
+主锻造页：巨大熔炉/铁砧/重型铁锤/温度控制/锤击区域/淬火水池
+视觉：锤击火星爆炸/金属变形/热浪扭曲/高温发红/淬火蒸汽
+锤击反馈必须：厚重/解压/爽
+
+钢纹展示：镜头缓慢推进/金属抛光/钢纹逐渐浮现/武器旋转展示
+钢纹类型：龙纹/熔岩纹/虚空纹/黑曜石纹/闪电纹/冰裂纹/赛博纹
+整体感觉像：CSGO稀有刀开箱+高级奢侈品展示
+
+收藏馆：未来工业博物馆/金属展示台/Legendary发光边框
+
+Premium页：动态火焰背景/熔岩流动/金属材质订阅卡片
+整体像：高端游戏Battle Pass + 奢侈品会员页面
+
+最终效果应该像："未来世界中的高级锻造模拟器"</div>
+    </section>
+
+    <section id="prompt-appstore" class="doc-section">
+      <h1>Prompt：App Store 宣传图模板替换</h1>
+      <p class="subtitle">可复用 — 批量生成同品牌风格宣传图</p>
+      <p style="margin-bottom:24px;color:#666;">用于 ChatGPT GPT-4o 图像生成。给定母版 + 新截图，只替换手机截图和文案，保持所有视觉元素不变。<strong>关键：不要在 Prompt 里描述具体风格元素（如祥云/梅花），而是"继承第一张图的非截图区域"。</strong></p>
+      <div class="prompt-header">
+        <span class="prompt-header-label">Prompt（可直接复用）</span>
+        <button class="copy-btn" onclick="copyPrompt('prompt-appstore-content')">复制</button>
+      </div>
+      <div class="prompt-box" id="prompt-appstore-content">第一张图是宣传图模板。
+第二张图是新的APP截图。
+
+保持第一张图中除了：
+- 手机截图区域
+- 宣传文案区域
+
+之外的所有视觉元素完全不变。
+
+包括但不限于：
+- 布局
+- 背景
+- 配色
+- 装饰
+- 光影
+- 字体风格
+- 排版
+- 插画元素
+- 图形元素
+- 边框
+- 手机模型
+
+不要重新设计海报。
+
+只执行：
+1. 替换手机中的截图
+2. 替换顶部宣传文字
+
+新的宣传文字必须基于第二张截图中的真实功能自动生成。
+
+最终效果：
+看起来像同一张海报模板，仅更新了页面内容。
+
+Do not redesign the poster.
+Keep all non-screenshot elements unchanged.
+Only replace the screenshot and marketing text.</div>
+    </section>
+
+    <section id="prompt-flutter-ui" class="doc-section">
+      <h1>Prompt：Flutter UI 还原（南湖 MCP + OC 代码）</h1>
+      <p class="subtitle">最稳定的 Flutter UI 还原工作流</p>
+      <p style="margin-bottom:24px;color:#666;">使用蓝湖/南湖导出的 OC/UIKit 代码作为结构中间层，AI 按 Flutter 习惯重构，比直接使用 Figma 节点树错误率低得多。</p>
+      <div class="prompt-header">
+        <span class="prompt-header-label">Prompt</span>
+        <button class="copy-btn" onclick="copyPrompt('prompt-flutter-content')">复制</button>
+      </div>
+      <div class="prompt-box" id="prompt-flutter-content">下面是蓝湖/南湖导出的iOS OC/UIKit代码，它只作为UI结构和样式参考。
+请不要逐行翻译OC。
+请结合截图视觉效果，用Flutter原生组件重新实现。
+
+要求：
+- 优先生成合理的Flutter组件结构
+- UILabel → Text
+- UIImageView → Image
+- UIButton → GestureDetector / TextButton / InkWell
+- UIView容器 → Container / Stack / Row / Column
+- frame仅作为尺寸和间距参考，不要机械绝对定位
+- 复杂装饰、渐变、背景、异形图形优先使用图片资源
+- 保持代码可维护、组件层级清晰
+
+[在此粘贴OC代码]</div>
+
+      <h2>工作流步骤</h2>
+      <ol style="margin-left:20px;color:#999;font-size:14px;line-height:2;">
+        <li>截图给 AI，理解最终视觉效果</li>
+        <li>南湖 MCP 获取关键尺寸/颜色/字体/间距</li>
+        <li>选中目标组件，导出 OC/UIKit 代码</li>
+        <li>使用上面 Prompt，AI 按 Flutter 习惯重构</li>
+        <li>复杂背景/装饰直接图片化，不尝试代码实现</li>
+      </ol>
+    </section>
+
+    <section id="prompt-heavy-task" class="doc-section">
+      <h1>heavy_task.skill</h1>
+      <p class="subtitle">大任务 AI 调度规范</p>
+      <p style="margin-bottom:24px;color:#666;">Claude Code skill 文件。Claude Code 负责分析/派单/验收，OpenCode+DeepSeek 负责执行重复劳动。小改动不启用。</p>
+
+      <h2>启用条件</h2>
+      <p>只有满足以下条件之一时才启用：</p>
+      <ul>
+        <li>涉及 3 个以上文件</li>
+        <li>页面批量生成、重复样板代码、批量 CRUD</li>
+        <li>大量 DTO/Model、大量 API 对接、大量 UI 搬运</li>
+        <li>大范围重构、MCP 大规模生成、多模块联动</li>
+      </ul>
+
+      <h2>禁止启用（直接用 Claude Code）</h2>
+      <ul>
+        <li>小 bug / padding 修改 / 小范围 UI 调整</li>
+        <li>单文件修改 / debugPrint / 小逻辑修复</li>
+        <li>Flutter 生命周期 bug / 动画微调 / Dio 请求 bug</li>
+      </ul>
+
+      <h2>任务分级表</h2>
+      <div style="overflow-x:auto;margin:16px 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+            <th style="text-align:left;padding:8px 12px;color:#666;">任务类型</th>
+            <th style="text-align:left;padding:8px 12px;color:#666;">推荐工具</th>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px 12px;color:#999;">padding/颜色/文案微调</td>
+            <td style="padding:8px 12px;color:#34d399;">自己手改</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px 12px;color:#999;">Bug 修复 / 小逻辑</td>
+            <td style="padding:8px 12px;color:#818cf8;">Claude Code / Codex</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px 12px;color:#999;">批量生成 / 大量样板代码</td>
+            <td style="padding:8px 12px;color:#fbbf24;">heavy_task.skill → DeepSeek</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;color:#999;">架构设计 / 复杂动画</td>
+            <td style="padding:8px 12px;color:#f87171;">Claude Code（禁止 DeepSeek）</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="prompt-header">
+        <span class="prompt-header-label">skill 文件内容</span>
+        <button class="copy-btn" onclick="copyPrompt('prompt-heavy-content')">复制</button>
+      </div>
+      <div class="prompt-box" id="prompt-heavy-content"># heavy_task.skill
+
+## Role
+你是Heavy Task调度Agent。
+职责：分析大型任务/拆分任务/控制token消耗/调度OpenCode+DeepSeek执行/最终验收
+
+## 启用条件
+满足以下任一条件才启用：涉及3个以上文件/批量生成/重复样板代码/大范围重构
+
+禁止启用：小bug/padding修改/单文件小修改/Flutter生命周期bug/动画微调
+
+## 工作流
+Step 1：分析任务（修改范围/风险/token消耗/是否适合DeepSeek）
+Step 2：拆分到.ai_tasks/，每任务最多改3个文件，有明确目标和限制范围
+Step 3：opencode run 执行，失败最多重试2次
+Step 4：执行后 flutter analyze + git diff --stat
+Step 5：验收代码，禁止直接相信OpenCode输出
+
+## Flutter 禁止操作
+- 自动修改主题系统/路由结构
+- 自动删除debugPrint
+- 自动优化动画/重构状态管理
+
+## DeepSeek 适合：重复劳动/样板代码/CRUD/DTO
+## DeepSeek 不适合：Flutter复杂状态/动画/生命周期/架构设计</div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>© 2026 FLB Studio</p>
+  <p style="margin-top:12px">
+    <a href="/">首页</a>
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </p>
+</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    const section = document.getElementById(id);
+    if (section) section.classList.add('visible');
+    const link = document.querySelector(`[onclick="showSection('${id}')"]`);
+    if (link) link.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyPrompt(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent).then(() => {
+      const btn = el.previousElementSibling?.querySelector('.copy-btn');
+      if (btn) { btn.textContent = '已复制 ✓'; setTimeout(() => btn.textContent = '复制', 2000); }
+    });
+  }
+</script>
+
+</body>
+</html>
