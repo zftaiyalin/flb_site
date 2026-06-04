@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>支持 & FAQ — FLB Studio</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .faq-section { max-width: 800px; margin: 0 auto; padding: 48px 48px 80px; }
+    .faq-app-title { font-size: 18px; font-weight: 700; color: #818cf8; margin: 40px 0 16px; display: flex; align-items: center; gap: 10px; }
+    details {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; margin-bottom: 10px;
+      background: rgba(255,255,255,0.03);
+    }
+    summary {
+      padding: 18px 20px; cursor: pointer; font-size: 15px; font-weight: 600;
+      list-style: none; display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    summary::after { content: '+'; font-size: 20px; color: #818cf8; transition: transform .2s; }
+    details[open] summary::after { content: '−'; }
+    details p { padding: 0 20px 18px; color: #999; font-size: 14px; line-height: 1.7; }
+    .contact-banner {
+      background: rgba(129,140,248,0.08); border: 1px solid rgba(129,140,248,0.2);
+      border-radius: 16px; padding: 32px; text-align: center;
+      max-width: 800px; margin: 0 auto 80px;
+    }
+    .contact-banner h3 { font-size: 18px; margin-bottom: 8px; }
+    .contact-banner p { color: #888; font-size: 14px; margin-bottom: 20px; }
+    .btn {
+      display: inline-block; padding: 12px 28px; background: #818cf8;
+      color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    @media (max-width: 600px) { .faq-section { padding: 24px 20px 60px; } }
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html">FLB Studio</a>
+  <nav>
+    <a href="index.html#apps">产品</a>
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </nav>
+</header>
+
+<div class="page-hero" style="padding-bottom:32px">
+  <div>
+    <div class="badge">支持中心</div>
+    <h1>常见问题 FAQ</h1>
+    <p>找到你的问题，快速解决。</p>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<div class="faq-section">
+
+  <div class="faq-app-title"><span>🧭</span> Compass</div>
+
+  <details>
+    <summary>罗盘方向不准怎么办？</summary>
+    <p>请远离金属物体、磁铁和电子设备。在空旷处缓慢将手机画"8"字形来校准传感器，通常可以恢复精度。</p>
+  </details>
+  <details>
+    <summary>真北和磁北有什么区别？</summary>
+    <p>磁北是地磁场指向，真北是地理北极方向。两者之间的差角称为磁偏角，会因地区不同而有所差异。开启位置权限后，Compass 会自动补偿磁偏角。</p>
+  </details>
+  <details>
+    <summary>为什么需要位置权限？</summary>
+    <p>位置权限仅用于获取当前地区的磁偏角数据，从而提供更精准的真北方向。位置数据不会被收集或上传。</p>
+  </details>
+
+  <div class="faq-app-title"><span>🌙</span> Sleep</div>
+
+  <details>
+    <summary>音频播放时屏幕锁定还能继续吗？</summary>
+    <p>可以。Sleep 支持后台播放，锁屏后音频会继续播放，并可通过控制中心暂停。</p>
+  </details>
+  <details>
+    <summary>如何使用定时关闭功能？</summary>
+    <p>在播放界面点击定时器图标，选择 15/30/45/60 分钟，到时后音频将自动淡出停止。</p>
+  </details>
+  <details>
+    <summary>音频可以离线使用吗？</summary>
+    <p>可以。所有内置音景均包含在应用安装包中，无需联网即可使用。</p>
+  </details>
+
+  <div class="faq-app-title"><span>⚒️</span> Forge</div>
+
+  <details>
+    <summary>专注记录会自动保存吗？</summary>
+    <p>会。每次专注会话结束后，记录会自动保存到本地。</p>
+  </details>
+  <details>
+    <summary>删除任务后数据还在吗？</summary>
+    <p>删除任务会同时删除该任务下所有的专注记录，此操作不可撤销，请谨慎操作。</p>
+  </details>
+  <details>
+    <summary>如何修改番茄钟时长？</summary>
+    <p>进入「设置」页面，在「专注时长」选项中可自定义工作时间和休息时间。</p>
+  </details>
+
+</div>
+
+<div class="contact-banner" style="padding: 0 48px;">
+  <div style="background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.2);border-radius:16px;padding:32px;text-align:center">
+    <h3>没找到答案？</h3>
+    <p>联系我们，我们会在 1-2 个工作日内回复。</p>
+    <a class="btn" href="contact.html">联系支持</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 FLB Studio. All rights reserved.</p>
+  <p style="margin-top:12px">
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </p>
+</footer>
+</body>
+</html>

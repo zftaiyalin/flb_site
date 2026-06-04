@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLB Studio — 专注于打造精品移动应用</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e8e8f0; }
+
+    /* ── Header ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px); background: rgba(10,10,15,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: #fff; text-decoration: none; }
+    nav a { color: #aaa; text-decoration: none; margin-left: 32px; font-size: 15px; transition: color .2s; }
+    nav a:hover { color: #fff; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center; padding: 120px 24px 80px;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.25) 0%, transparent 70%);
+    }
+    .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -2px; }
+    .hero h1 span { background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { margin: 24px auto 0; max-width: 560px; font-size: 18px; color: #888; line-height: 1.7; }
+
+    /* ── Apps Grid ── */
+    .section { padding: 80px 48px; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 48px; text-align: center; }
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+    .app-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px; transition: transform .2s, border-color .2s;
+      text-decoration: none; color: inherit;
+    }
+    .app-card:hover { transform: translateY(-4px); border-color: rgba(129,140,248,0.4); }
+    .app-icon { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 20px; object-fit: cover; }
+    .app-icon-placeholder {
+      width: 72px; height: 72px; border-radius: 18px; margin-bottom: 20px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+    }
+    .app-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .app-desc { font-size: 14px; color: #888; line-height: 1.6; }
+    .app-links { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .app-link {
+      font-size: 12px; color: #818cf8; text-decoration: none;
+      padding: 4px 12px; border: 1px solid rgba(129,140,248,0.3); border-radius: 20px;
+      transition: background .2s;
+    }
+    .app-link:hover { background: rgba(129,140,248,0.15); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 48px 24px; border-top: 1px solid rgba(255,255,255,0.06);
+      color: #555; font-size: 14px;
+    }
+    footer a { color: #666; text-decoration: none; margin: 0 12px; }
+    footer a:hover { color: #aaa; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">FLB Studio</a>
+  <nav>
+    <a href="#apps">产品</a>
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>打造<span>精品</span>移动体验</h1>
+  <p>我们专注于设计和开发高质量的 iOS 与 Android 应用，让每一个产品都令人愉悦。</p>
+</section>
+
+<div class="section" id="apps">
+  <h2 class="section-title">我们的产品</h2>
+  <div class="apps-grid" id="apps-grid">
+
+    <!-- compass -->
+    <a class="app-card" href="apps/compass.html">
+      <div class="app-icon-placeholder">🧭</div>
+      <div class="app-name">Compass</div>
+      <div class="app-desc">精准罗盘，随身携带，帮助你找到方向。</div>
+      <div class="app-links">
+        <span class="app-link">隐私政策</span>
+        <span class="app-link">用户协议</span>
+      </div>
+    </a>
+
+    <!-- sleep -->
+    <a class="app-card" href="apps/sleep.html">
+      <div class="app-icon-placeholder">🌙</div>
+      <div class="app-name">Sleep</div>
+      <div class="app-desc">白噪音助眠，告别失眠，拥有高质量睡眠。</div>
+      <div class="app-links">
+        <span class="app-link">隐私政策</span>
+        <span class="app-link">用户协议</span>
+      </div>
+    </a>
+
+    <!-- forge -->
+    <a class="app-card" href="apps/forge.html">
+      <div class="app-icon-placeholder">⚒️</div>
+      <div class="app-name">Forge</div>
+      <div class="app-desc">锻造专注力，打铁趁热，高效完成每一个目标。</div>
+      <div class="app-links">
+        <span class="app-link">隐私政策</span>
+        <span class="app-link">用户协议</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 FLB Studio. All rights reserved.</p>
+  <p style="margin-top:12px">
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </p>
+</footer>
+
+</body>
+</html>

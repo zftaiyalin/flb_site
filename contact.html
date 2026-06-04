@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>联系我们 — FLB Studio</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .contact-wrap { max-width: 640px; margin: 0 auto; padding: 48px 48px 80px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #ccc; }
+    input, textarea, select {
+      width: 100%; padding: 14px 16px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; color: #e8e8f0; font-size: 15px;
+      transition: border-color .2s; outline: none; font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus { border-color: rgba(129,140,248,0.6); }
+    textarea { resize: vertical; min-height: 140px; }
+    select option { background: #1a1a2e; }
+    .btn-submit {
+      width: 100%; padding: 16px; background: #818cf8; color: #fff;
+      border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .btn-submit:hover { opacity: 0.85; }
+    .direct-contact { margin-top: 48px; padding: 24px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.07); }
+    .direct-contact h3 { font-size: 16px; margin-bottom: 12px; }
+    .direct-contact a { color: #818cf8; }
+    @media (max-width: 600px) { .contact-wrap { padding: 24px 20px 60px; } }
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html">FLB Studio</a>
+  <nav>
+    <a href="index.html#apps">产品</a>
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </nav>
+</header>
+
+<div class="page-hero" style="padding-bottom:32px">
+  <div>
+    <div class="badge">联系我们</div>
+    <h1>有任何问题？</h1>
+    <p>我们通常在 1-2 个工作日内回复。</p>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<div class="contact-wrap">
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div class="form-group">
+      <label for="app">相关应用</label>
+      <select id="app" name="app">
+        <option value="">— 请选择 —</option>
+        <option value="compass">Compass</option>
+        <option value="sleep">Sleep</option>
+        <option value="forge">Forge</option>
+        <option value="other">其他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="type">问题类型</label>
+      <select id="type" name="type">
+        <option value="">— 请选择 —</option>
+        <option value="bug">Bug 报告</option>
+        <option value="feature">功能建议</option>
+        <option value="account">账号问题</option>
+        <option value="other">其他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="email">您的邮箱</label>
+      <input type="email" id="email" name="email" placeholder="your@email.com" required />
+    </div>
+    <div class="form-group">
+      <label for="message">详细描述</label>
+      <textarea id="message" name="message" placeholder="请尽量详细描述您的问题或建议..." required></textarea>
+    </div>
+    <button type="submit" class="btn-submit">发送消息</button>
+  </form>
+
+  <div class="direct-contact">
+    <h3>直接联系</h3>
+    <p style="color:#888;font-size:14px">也可以直接发邮件至：<a href="mailto:zftaifei@gmail.com">zftaifei@gmail.com</a></p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 FLB Studio. All rights reserved.</p>
+  <p style="margin-top:12px">
+    <a href="support.html">支持</a>
+    <a href="contact.html">联系我们</a>
+  </p>
+</footer>
+</body>
+</html>
