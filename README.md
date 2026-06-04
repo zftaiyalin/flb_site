@@ -80,6 +80,28 @@ https://flbapp.com/privacy/weather.html
 https://flbapp.com/terms/weather.html
 ```
 
+## 删除 APP 页面
+
+```bash
+./remove_app.sh <app_id>
+```
+
+执行后会二次确认，输入 `yes` 才会删除。
+
+**删除内容：**
+- `apps/{app_id}.html`
+- `privacy/{app_id}.html`
+- `terms/{app_id}.html`
+- `index.html` 中的对应卡片
+
+**示例：**
+```bash
+./remove_app.sh weather
+
+# 确认提示后推送
+git add . && git commit -m "feat: remove Weather pages" && git push
+```
+
 ## 当前 APP 列表
 
 | APP | 介绍页 | 隐私政策 | 用户协议 |
