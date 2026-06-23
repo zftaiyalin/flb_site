@@ -11,6 +11,7 @@ flb_site/
 ├── lang.js             # 中英语言切换
 ├── support.html        # 支持 & FAQ
 ├── contact.html        # 联系表单
+├── delete-account.html # 通用账号与数据删除页（Google Play 数据安全表单）
 ├── add_app.sh          # 一键新增 APP
 ├── remove_app.sh       # 一键删除 APP
 ├── apps/
@@ -52,6 +53,8 @@ terms/weather.html      ← 用户协议（中英双语）
 
 同时自动在 `index.html` 首页插入该 APP 的卡片。
 
+同时自动将应用名称追加到 `delete-account.html` 的适用应用列表，方便 Google Play 数据安全表单复用同一个账号/数据删除链接。
+
 ### 生成后待补充
 
 新生成的文件里含有 `<!-- TODO: English ... -->` 注释，用 grep 快速找到：
@@ -82,6 +85,7 @@ git push
 https://flbapp.com/apps/weather.html
 https://flbapp.com/privacy/weather.html
 https://flbapp.com/terms/weather.html
+https://flbapp.com/delete-account.html
 ```
 
 ## 删除 APP 页面

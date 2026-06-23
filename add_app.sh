@@ -436,6 +436,60 @@ else:
 PYEOF
 
 # ══════════════════════════════════════════════════════════
+# 5. 自动更新通用账号/数据删除页面的适用应用列表
+# ══════════════════════════════════════════════════════════
+python3 - <<PYEOF
+import re
+from pathlib import Path
+
+app_name = """${APP_NAME}"""
+delete_page = Path("delete-account.html")
+
+if not delete_page.exists():
+    print("  ⚠️  delete-account.html 不存在，跳过账号/数据删除页面更新")
+else:
+    content = delete_page.read_text(encoding="utf-8")
+
+    def add_app_to_list(existing, separator):
+        apps = [item.strip() for item in existing.split(separator) if item.strip()]
+        if app_name not in apps:
+            apps.append(app_name)
+        return separator.join(apps)
+
+    zh_count = 0
+    en_count = 0
+
+    def replace_zh(match):
+        global zh_count
+        zh_count += 1
+        return f'{match.group(1)}{add_app_to_list(match.group(2), "、")}{match.group(3)}'
+
+    def replace_en(match):
+        global en_count
+        en_count += 1
+        return f'{match.group(1)}{add_app_to_list(match.group(2), ", ")}{match.group(3)}'
+
+    content = re.sub(
+        r'(<span class="delete-app-list-zh">)(.*?)(</span>)',
+        replace_zh,
+        content,
+        flags=re.S,
+    )
+    content = re.sub(
+        r'(<span class="delete-app-list-en">)(.*?)(</span>)',
+        replace_en,
+        content,
+        flags=re.S,
+    )
+
+    if zh_count == 0 or en_count == 0:
+        print("  ⚠️  delete-account.html 未找到 delete-app-list 标记，请手动更新适用应用列表")
+    else:
+        delete_page.write_text(content, encoding="utf-8")
+        print("  ✓ delete-account.html 适用应用列表已更新")
+PYEOF
+
+# ══════════════════════════════════════════════════════════
 # 完成提示
 # ══════════════════════════════════════════════════════════
 echo ""
@@ -445,6 +499,10 @@ echo "   生成文件："
 echo "   ├── apps/${APP_ID}.html"
 echo "   ├── privacy/${APP_ID}.html"
 echo "   └── terms/${APP_ID}.html"
+echo ""
+echo "   已更新："
+echo "   ├── index.html 首页应用卡片"
+echo "   └── delete-account.html 通用账号/数据删除页面适用应用列表"
 echo ""
 echo "   待补充（搜索 TODO 标记）："
 echo "   - apps/${APP_ID}.html  → 英文描述 & 功能列表"
